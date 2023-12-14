@@ -1,4 +1,4 @@
-# chainflip-perseverance
+# chainflip-berghain
 
 ## Pre-requisites
 - Docker (https://docs.docker.com/get-docker/)
@@ -8,8 +8,8 @@
 ### Clone the repo
 
 ```bash
-git clone https://github.com/chainflip-io/chainflip-perseverance.git
-cd chainflip-perseverance
+git clone https://github.com/chainflip-io/chainflip-berghain.git
+cd chainflip-berghain
 ```
 
 ### Generating Keys
@@ -17,8 +17,8 @@ cd chainflip-perseverance
 ```bash
 mkdir -p ./chainflip/keys/lp
 mkdir -p ./chainflip/keys/broker
-docker run --platform=linux/amd64 --entrypoint=/usr/local/bin/chainflip-cli chainfliplabs/chainflip-cli:perseverance generate-keys --json > chainflip/lp-keys.json
-docker run --platform=linux/amd64 --entrypoint=/usr/local/bin/chainflip-cli chainfliplabs/chainflip-cli:perseverance generate-keys --json > chainflip/broker-keys.json
+docker run --platform=linux/amd64 --entrypoint=/usr/local/bin/chainflip-cli chainfliplabs/chainflip-cli:berghain generate-keys --json > chainflip/lp-keys.json
+docker run --platform=linux/amd64 --entrypoint=/usr/local/bin/chainflip-cli chainfliplabs/chainflip-cli:berghain generate-keys --json > chainflip/broker-keys.json
 cat chainflip/broker-keys.json | jq -r '.signing_key.secret_key' > chainflip/keys/broker/signing_key_file
 cat chainflip/lp-keys.json | jq -r '.signing_key.secret_key' > chainflip/keys/lp/signing_key_file
 ```
@@ -51,7 +51,7 @@ cat chainflip/lp-keys.json | jq -r '.signing_account_id'
 > This can be achieved by removing the `127.0.0.1:` before the port number. For example:
 ```yaml
   lp:
-    image: chainfliplabs/chainflip-lp-api:perseverance
+    image: chainfliplabs/chainflip-lp-api:berghain
     pull_policy: always
     stop_grace_period: 5s
     stop_signal: SIGINT
@@ -78,7 +78,7 @@ docker compose logs -f
 > 💡 Note: You know that your node is synced once you start seeing logs similar to the following:
 
 ```log
-chainflip-perseverance-node-1  | 2023-10-13 16:02:00 ✨ Imported #614404 (0x990b…be63)
+chainflip-berghain-node-1  | 2023-10-13 16:02:00 ✨ Imported #614404 (0x990b…be63)
 ```
 
 Once the node is synced you can start the APIs:
