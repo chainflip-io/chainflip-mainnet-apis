@@ -14,6 +14,8 @@ cd chainflip-mainnet-apis
 
 ### Generating Keys
 
+> ⛔️ Please make sure you backup your keys. If you lose your keys, you will lose access to your funds. ⛔️
+
 ```bash
 mkdir -p ./chainflip/keys/lp
 mkdir -p ./chainflip/keys/broker
@@ -101,8 +103,9 @@ docker compose logs -f lp
 ```
 
 ### Interacting with the APIs
-You can connect to your local RPC using [PolkadotJS](https://polkadot.js.org/apps/?rpc=ws%3A%2F%2F127.0.0.1%3A9944#/explorer) to see chain events.
+
 > Note: The following commands take a little while to respond because it submits and waits for finality.
+
 #### Broker
 
 Register a broker account:
