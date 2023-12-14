@@ -1,4 +1,4 @@
-# chainflip-berghain
+# chainflip-mainnet-apis
 
 ## Pre-requisites
 - Docker (https://docs.docker.com/get-docker/)
