@@ -8,8 +8,8 @@
 ### Clone the repo
 
 ```bash
-git clone https://github.com/chainflip-io/chainflip-berghain.git
-cd chainflip-berghain
+git clone https://github.com/chainflip-io/chainflip-mainnet-apis.git
+cd chainflip-mainnet-apis
 ```
 
 ### Generating Keys
