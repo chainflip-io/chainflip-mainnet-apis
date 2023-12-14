@@ -78,7 +78,8 @@ docker compose logs -f
 > 💡 Note: You know that your node is synced once you start seeing logs similar to the following:
 
 ```log
-chainflip-berghain-node-1  | 2023-10-13 16:02:00 ✨ Imported #614404 (0x990b…be63)
+chainflip-mainnet-apis-node-1  | 2023-12-14 10:22:24 ✨ Imported #438968 (0x3fba…8e06)
+chainflip-mainnet-apis-node-1  | 2023-12-14 10:22:28 ⏩ Block history, #26112 (8 peers), best: #438968 (0x3fba…8e06), finalized #438966 (0x99bd…0628), ⬇ 3.4MiB/s ⬆ 182.8kiB/s
 ```
 
 Once the node is synced you can start the APIs:
