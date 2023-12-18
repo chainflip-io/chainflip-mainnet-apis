@@ -39,7 +39,7 @@ services:
     entrypoint:
       - /usr/local/bin/chainflip-broker-api
     command:
-      - --state_chain.ws_endpoint=wss://mainnet-rpc.chainflip.io
+      - --state_chain.ws_endpoint=ws://18.153.89.157:9944
     # depends_on:
     #   - node
 
@@ -59,7 +59,7 @@ services:
     entrypoint:
       - /usr/local/bin/chainflip-lp-api
     command:
-      - --state_chain.ws_endpoint=wss://mainnet-rpc.chainflip.io
+      - --state_chain.ws_endpoint=ws://18.153.89.157:9944
     # depends_on:
     #   - node
 
