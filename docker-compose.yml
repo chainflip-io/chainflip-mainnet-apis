@@ -1,27 +1,27 @@
 version: "3.8"
 
 services:
-  node:
-    image: chainfliplabs/chainflip-node:berghain-1.1.1
-    pull_policy: always
-    stop_grace_period: 5s
-    stop_signal: SIGINT
-    platform: linux/amd64
-    restart: unless-stopped
-    user: root
-    ports:
-      - "127.0.0.1:9944:9944"
-    volumes:
-      - chaindata:/etc/chainflip/chaindata
-    entrypoint:
-      - /usr/local/bin/chainflip-node
-    command:
-      - --base-path=/etc/chainflip/chaindata
-      - --chain=/etc/chainflip/berghain.chainspec.json
-      - --rpc-cors=all
-      - --rpc-methods=unsafe
-      - --unsafe-rpc-external
-      - --sync=warp
+  # node:
+  #   image: chainfliplabs/chainflip-node:berghain-1.1.1
+  #   pull_policy: always
+  #   stop_grace_period: 5s
+  #   stop_signal: SIGINT
+  #   platform: linux/amd64
+  #   restart: unless-stopped
+  #   user: root
+  #   ports:
+  #     - "127.0.0.1:9944:9944"
+  #   volumes:
+  #     - chaindata:/etc/chainflip/chaindata
+  #   entrypoint:
+  #     - /usr/local/bin/chainflip-node
+  #   command:
+  #     - --base-path=/etc/chainflip/chaindata
+  #     - --chain=/etc/chainflip/berghain.chainspec.json
+  #     - --rpc-cors=all
+  #     - --rpc-methods=unsafe
+  #     - --unsafe-rpc-external
+  #     - --sync=warp
 
   broker:
     image: chainfliplabs/chainflip-broker-api:berghain-1.1.1
@@ -39,7 +39,7 @@ services:
     entrypoint:
       - /usr/local/bin/chainflip-broker-api
     command:
-      - --state_chain.ws_endpoint=ws://node:9944
+      - --state_chain.ws_endpoint=wss://mainnet-rpc.chainflip.io
     depends_on:
       - node
 
@@ -59,7 +59,7 @@ services:
     entrypoint:
       - /usr/local/bin/chainflip-lp-api
     command:
-      - --state_chain.ws_endpoint=ws://node:9944
+      - --state_chain.ws_endpoint=wss://mainnet-rpc.chainflip.io
     depends_on:
       - node
 

@@ -71,7 +71,7 @@ cat chainflip/lp-keys.json | jq -r '.signing_account_id'
       - node
 ```
 
-#### Starting the Node and APIs
+<!-- #### Starting the Node and APIs
 Start by starting the node and wait for it to sync:
 ```bash
 docker compose up node -d
@@ -82,7 +82,8 @@ docker compose logs -f
 ```log
 chainflip-mainnet-apis-node-1  | 2023-12-14 10:22:24 ✨ Imported #438968 (0x3fba…8e06)
 chainflip-mainnet-apis-node-1  | 2023-12-14 10:22:28 ⏩ Block history, #26112 (8 peers), best: #438968 (0x3fba…8e06), finalized #438966 (0x99bd…0628), ⬇ 3.4MiB/s ⬆ 182.8kiB/s
-```
+``` -->
+#### Starting APIs
 
 Once the node is synced you can start the APIs:
 ```bash
