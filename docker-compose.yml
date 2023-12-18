@@ -40,8 +40,8 @@ services:
       - /usr/local/bin/chainflip-broker-api
     command:
       - --state_chain.ws_endpoint=wss://mainnet-rpc.chainflip.io
-    depends_on:
-      - node
+    # depends_on:
+    #   - node
 
   lp:
     image: chainfliplabs/chainflip-lp-api:berghain-1.1.1
@@ -60,8 +60,8 @@ services:
       - /usr/local/bin/chainflip-lp-api
     command:
       - --state_chain.ws_endpoint=wss://mainnet-rpc.chainflip.io
-    depends_on:
-      - node
+    # depends_on:
+    #   - node
 
 volumes:
   chaindata:
