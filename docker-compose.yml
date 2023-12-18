@@ -33,7 +33,7 @@ services:
     ports:
       - "127.0.0.1:10997:80"
     environment:
-      - RUST_LOG=info
+      - RUST_LOG=debug
     volumes:
       - ./chainflip/keys/broker:/etc/chainflip/keys
     entrypoint:
@@ -53,7 +53,7 @@ services:
     ports:
       - "127.0.0.1:10589:80"
     environment:
-      - RUST_LOG=info
+      - RUST_LOG=debug
     volumes:
       - ./chainflip/keys/lp:/etc/chainflip/keys
     entrypoint:
