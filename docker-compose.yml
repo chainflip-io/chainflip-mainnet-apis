@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   node:
-    image: chainfliplabs/chainflip-node:berghain-1.1.1
+    image: chainfliplabs/chainflip-node:berghain-1.1.2
     pull_policy: always
     stop_grace_period: 5s
     stop_signal: SIGINT
@@ -12,7 +12,7 @@ services:
     ports:
       - "127.0.0.1:9944:9944"
     volumes:
-      - chaindata:/etc/chainflip/chaindata
+      - ./chainflip/chaindata:/etc/chainflip/chaindata
     entrypoint:
       - /usr/local/bin/chainflip-node
     command:
@@ -64,6 +64,3 @@ services:
       - --state_chain.ws_endpoint=ws://node:9944
     depends_on:
       - node
-
-volumes:
-  chaindata:
