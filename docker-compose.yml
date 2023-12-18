@@ -21,7 +21,7 @@ services:
       - --rpc-cors=all
       - --rpc-methods=unsafe
       - --unsafe-rpc-external
-      - --sync=warp
+      - --sync=full
 
   broker:
     image: chainfliplabs/chainflip-broker-api:berghain-1.1.1
