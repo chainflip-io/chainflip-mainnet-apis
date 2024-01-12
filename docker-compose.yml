@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   node:
-    image: chainfliplabs/chainflip-node:berghain-1.1.2
+    image: chainfliplabs/chainflip-node:berghain-1.1.6
     pull_policy: always
     stop_grace_period: 5s
     stop_signal: SIGINT
