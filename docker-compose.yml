@@ -64,3 +64,6 @@ services:
       - --state_chain.ws_endpoint=ws://node:9944
     depends_on:
       - node
+#    logging:
+#      options:
+#        max-size: "1000m"
