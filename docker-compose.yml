@@ -20,6 +20,7 @@ services:
       - --chain=/etc/chainflip/berghain.chainspec.json
       - --rpc-cors=all
       - --rpc-methods=unsafe
+      - --max-runtime-instances=32
       - --unsafe-rpc-external
       - --sync=warp
 
