@@ -19,8 +19,8 @@ cd chainflip-mainnet-apis
 ```bash
 mkdir -p ./chainflip/keys/lp
 mkdir -p ./chainflip/keys/broker
-docker run --platform=linux/amd64 --entrypoint=/usr/local/bin/chainflip-cli chainfliplabs/chainflip-cli:berghain-1.7.5 generate-keys --json > chainflip/lp-keys.json
-docker run --platform=linux/amd64 --entrypoint=/usr/local/bin/chainflip-cli chainfliplabs/chainflip-cli:berghain-1.7.5 generate-keys --json > chainflip/broker-keys.json
+docker run --platform=linux/amd64 --entrypoint=/usr/local/bin/chainflip-cli chainfliplabs/chainflip-cli:berghain generate-keys --json > chainflip/lp-keys.json
+docker run --platform=linux/amd64 --entrypoint=/usr/local/bin/chainflip-cli chainfliplabs/chainflip-cli:berghain generate-keys --json > chainflip/broker-keys.json
 cat chainflip/broker-keys.json | jq -r '.signing_key.secret_key' > chainflip/keys/broker/signing_key_file
 cat chainflip/lp-keys.json | jq -r '.signing_key.secret_key' > chainflip/keys/lp/signing_key_file
 ```
@@ -53,7 +53,7 @@ cat chainflip/lp-keys.json | jq -r '.signing_account_id'
 > This can be achieved by removing the `127.0.0.1:` before the port number. For example:
 ```yaml
   lp:
-    image: chainfliplabs/chainflip-lp-api:berghain
+    image: chainfliplabs/chainflip-lp-api:berghain-1.7.5
     pull_policy: always
     stop_grace_period: 5s
     stop_signal: SIGINT
