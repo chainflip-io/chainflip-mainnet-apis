@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   node:
-    image: chainfliplabs/chainflip-node:berghain-1.8.3
+    image: chainfliplabs/chainflip-node:berghain-1.8.4
     pull_policy: always
     stop_grace_period: 5s
     stop_signal: SIGINT
@@ -25,7 +25,7 @@ services:
       - --sync=warp
 
   broker:
-    image: chainfliplabs/chainflip-broker-api:berghain-1.8.3
+    image: chainfliplabs/chainflip-broker-api:berghain-1.8.4
     pull_policy: always
     stop_grace_period: 5s
     stop_signal: SIGINT
@@ -46,7 +46,7 @@ services:
       - node
 
   lp:
-    image: chainfliplabs/chainflip-lp-api:berghain-1.8.3
+    image: chainfliplabs/chainflip-lp-api:berghain-1.8.4
     pull_policy: always
     stop_grace_period: 5s
     stop_signal: SIGINT
