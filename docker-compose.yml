@@ -1,8 +1,30 @@
-version: "3.8"
-
 services:
   node:
-    image: chainfliplabs/chainflip-node:berghain-1.8.4
+    image: ghcr.io/chainflip-io/chainflip-backend/chainflip-node:latest
+    pull_policy: always
+    stop_grace_period: 5s
+    stop_signal: SIGINT
+    platform: linux/amd64
+    restart: unless-stopped
+    user: root
+    ports:
+      - "127.0.0.1:9944:9944"
+    entrypoint: /bin/sh
+    command: >
+      -c '
+      /usr/local/bin/chainflip-node \
+        --base-path=/etc/chainflip/chaindata \
+        --chain=/etc/chainflip/berghain.chainspec.json \
+        --rpc-cors=all \
+        --rpc-methods=unsafe \
+        --max-runtime-instances=32 \
+        --unsafe-rpc-external \
+        --sync=warp'
+    profiles:
+      - rpc-node
+
+  node-with-broker:
+    image: ghcr.io/chainflip-io/chainflip-backend/chainflip-node:latest
     pull_policy: always
     stop_grace_period: 5s
     stop_signal: SIGINT
@@ -12,20 +34,30 @@ services:
     ports:
       - "127.0.0.1:9944:9944"
     volumes:
-      - ./chainflip/chaindata:/etc/chainflip/chaindata
-    entrypoint:
-      - /usr/local/bin/chainflip-node
-    command:
-      - --base-path=/etc/chainflip/chaindata
-      - --chain=/etc/chainflip/berghain.chainspec.json
-      - --rpc-cors=all
-      - --rpc-methods=unsafe
-      - --max-runtime-instances=32
-      - --unsafe-rpc-external
-      - --sync=warp
+      - ./chainflip/keys/broker:/etc/chainflip-keys/broker
+    entrypoint: /bin/sh
+    command: >
+      -c '
+      /usr/local/bin/chainflip-node key insert \
+        --chain=/etc/chainflip/berghain.chainspec.json \
+        --base-path=/etc/chainflip/chaindata \
+        --suri=0x$$(cat /etc/chainflip-keys/broker/signing_key_file) \
+        --key-type=brok \
+        --scheme=sr25519 &&
+      /usr/local/bin/chainflip-node \
+        --base-path=/etc/chainflip/chaindata \
+        --chain=/etc/chainflip/berghain.chainspec.json \
+        --rpc-cors=all \
+        --rpc-methods=unsafe \
+        --max-runtime-instances=32 \
+        --unsafe-rpc-external \
+        --sync=warp
+      '
+    profiles:
+      - broker
 
-  broker:
-    image: chainfliplabs/chainflip-broker-api:berghain-1.8.4
+  node-with-lp:
+    image: ghcr.io/chainflip-io/chainflip-backend/chainflip-node:latest
     pull_policy: always
     stop_grace_period: 5s
     stop_signal: SIGINT
@@ -33,35 +65,26 @@ services:
     restart: unless-stopped
     user: root
     ports:
-      - "127.0.0.1:10997:80"
-    environment:
-      - RUST_LOG=debug
+      - "127.0.0.1:9944:9944"
     volumes:
-      - ./chainflip/keys/broker:/etc/chainflip/keys
-    entrypoint:
-      - /usr/local/bin/chainflip-broker-api
-    command:
-      - --state_chain.ws_endpoint=ws://node:9944
-    depends_on:
-      - node
-
-  lp:
-    image: chainfliplabs/chainflip-lp-api:berghain-1.8.4
-    pull_policy: always
-    stop_grace_period: 5s
-    stop_signal: SIGINT
-    platform: linux/amd64
-    restart: unless-stopped
-    user: root
-    ports:
-      - "127.0.0.1:10589:80"
-    environment:
-      - RUST_LOG=debug
-    volumes:
-      - ./chainflip/keys/lp:/etc/chainflip/keys
-    entrypoint:
-      - /usr/local/bin/chainflip-lp-api
-    command:
-      - --state_chain.ws_endpoint=ws://node:9944
-    depends_on:
-      - node
+      - ./chainflip/keys/lp:/etc/chainflip-keys/lp
+    entrypoint: /bin/sh
+    command: >
+      -c '
+      /usr/local/bin/chainflip-node key insert \
+        --chain=/etc/chainflip/berghain.chainspec.json \
+        --base-path=/etc/chainflip/chaindata \
+        --suri=0x$$(cat /etc/chainflip-keys/lp/signing_key_file) \
+        --key-type=lqpr \
+        --scheme=sr25519 &&
+      /usr/local/bin/chainflip-node \
+        --base-path=/etc/chainflip/chaindata \
+        --chain=/etc/chainflip/berghain.chainspec.json \
+        --rpc-cors=all \
+        --rpc-methods=unsafe \
+        --max-runtime-instances=32 \
+        --unsafe-rpc-external \
+        --sync=warp
+      '
+    profiles:
+      - lp
