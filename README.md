@@ -77,11 +77,14 @@ cat chainflip/lp-keys.json | jq -r '.signing_account_id'
       /usr/local/bin/chainflip-node \
         --base-path=/etc/chainflip/chaindata \
         --chain=/etc/chainflip/berghain.chainspec.json \
-        --rpc-cors=all \
-        --rpc-methods=unsafe \
         --max-runtime-instances=32 \
-        --unsafe-rpc-external \
-        --sync=warp
+        --rpc-cors=all \
+        --rpc-methods=safe \
+        --rpc-external \
+        --sync=light-rpc \
+        --blocks-pruning=128 \
+        --state-pruning=128 \
+        --log info,grandpa=error,runtime::grandpa=off,aura=error,babe=error,txpool::api=error
       '
     profiles:
       - lp
@@ -128,6 +131,13 @@ docker compose --profile lp logs -f
 ```log
 chainflip-mainnet-apis-node-1  | 2023-12-14 10:22:24 ✨ Imported #438968 (0x3fba…8e06)
 chainflip-mainnet-apis-node-1  | 2023-12-14 10:22:28 ⏩ Block history, #26112 (8 peers), best: #438968 (0x3fba…8e06), finalized #438966 (0x99bd…0628), ⬇ 3.4MiB/s ⬆ 182.8kiB/s
+```
+
+You can check the node's health by using this rpc call:
+```
+curl -H "Content-Type: application/json" \
+    -d '{"id":1, "jsonrpc":"2.0", "method": "system_health"}' \
+    http://localhost:9944
 ```
 
 ### Interacting with the APIs

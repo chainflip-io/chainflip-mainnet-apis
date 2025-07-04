@@ -15,11 +15,15 @@ services:
       /usr/local/bin/chainflip-node \
         --base-path=/etc/chainflip/chaindata \
         --chain=/etc/chainflip/berghain.chainspec.json \
-        --rpc-cors=all \
-        --rpc-methods=unsafe \
         --max-runtime-instances=32 \
-        --unsafe-rpc-external \
-        --sync=warp'
+        --rpc-cors=all \
+        --rpc-methods=safe \
+        --rpc-external \
+        --sync=light-rpc \
+        --blocks-pruning=128 \
+        --state-pruning=128 \
+        --log info,grandpa=error,runtime::grandpa=off,aura=error,babe=error,txpool::api=error
+      '
     profiles:
       - rpc-node
 
@@ -47,11 +51,14 @@ services:
       /usr/local/bin/chainflip-node \
         --base-path=/etc/chainflip/chaindata \
         --chain=/etc/chainflip/berghain.chainspec.json \
-        --rpc-cors=all \
-        --rpc-methods=unsafe \
         --max-runtime-instances=32 \
-        --unsafe-rpc-external \
-        --sync=warp
+        --rpc-cors=all \
+        --rpc-methods=safe \
+        --rpc-external \
+        --sync=light-rpc \
+        --blocks-pruning=128 \
+        --state-pruning=128 \
+        --log info,grandpa=error,runtime::grandpa=off,aura=error,babe=error,txpool::api=error
       '
     profiles:
       - broker
@@ -80,11 +87,14 @@ services:
       /usr/local/bin/chainflip-node \
         --base-path=/etc/chainflip/chaindata \
         --chain=/etc/chainflip/berghain.chainspec.json \
-        --rpc-cors=all \
-        --rpc-methods=unsafe \
         --max-runtime-instances=32 \
-        --unsafe-rpc-external \
-        --sync=warp
+        --rpc-cors=all \
+        --rpc-methods=safe \
+        --rpc-external \
+        --sync=light-rpc \
+        --blocks-pruning=128 \
+        --state-pruning=128 \
+        --log info,grandpa=error,runtime::grandpa=off,aura=error,babe=error,txpool::api=error
       '
     profiles:
       - lp
