@@ -54,7 +54,7 @@ cat chainflip/lp-keys.json | jq -r '.signing_account_id'
 > This can be achieved by removing the `127.0.0.1:` before the port number. For example:
 ```yaml
   node-with-lp:
-    image: ghcr.io/chainflip-io/chainflip-backend/chainflip-node:latest
+    image: chainfliplabs/chainflip-node:berghain-1.10.0
     pull_policy: always
     stop_grace_period: 5s
     stop_signal: SIGINT
