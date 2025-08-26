@@ -44,6 +44,44 @@ cat chainflip/lp-keys.json | jq -r '.signing_account_id'
 4. Click "Add Node"
 5. Follow the instructions to fund the account
 
+## 🚀 Migrating to RPC 2.0
+
+> ✨ **Upgrade Notice**: If you're upgrading from a previous version that used separate LP and Broker API services, RPC 2.0 provides a simplified architecture where all APIs are integrated directly into the node.
+
+### 🔄 Key Changes
+- 🎯 **Consolidated APIs**: LP and Broker RPCs are now part of the node itself, eliminating the need for separate API containers
+- 🔑 **Key Injection**: Signing keys are automatically injected into the node's keystore on startup
+- 📋 **Profile-based Configuration**: Use Docker Compose profiles to run different node configurations
+
+### 📋 Migration Steps
+
+#### 1️⃣ **Verify Key Location**
+> ✅ No changes needed if you followed the setup guide!
+
+Ensure your keys are in the correct location:
+- 🔐 Broker keys: `./chainflip/keys/broker/signing_key_file`
+- 🔐 LP keys: `./chainflip/keys/lp/signing_key_file`
+
+#### 2️⃣ **Update Docker Compose Commands**
+```bash
+# ❌ Old: separate services
+docker compose up node broker lp
+
+# ✅ New: profile-based approach
+docker compose --profile broker up -d    # For broker functionality
+docker compose --profile lp up -d        # For LP functionality
+docker compose --profile rpc-node up -d  # For basic RPC node
+```
+
+#### 3️⃣ **API Integration**
+> 🎉 **No code changes required!** Your existing integration continues to work unchanged.
+
+All API calls now point to: `http://localhost:9944`
+
+---
+
+> 💡 **Drop-in Replacement**: The migration is designed as a seamless upgrade - once your signing keys are in the correct location, everything works with the new architecture!
+
 ### Running the APIs
 
 
