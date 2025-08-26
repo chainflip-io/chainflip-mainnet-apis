@@ -73,7 +73,32 @@ docker compose --profile lp up -d        # For LP functionality
 docker compose --profile rpc-node up -d  # For basic RPC node
 ```
 
-#### 3️⃣ **API Integration**
+#### 3️⃣ **Safe Deployment Strategy**
+> 🛡️ **Zero-downtime migration**: Deploy the new setup alongside your existing deployment for a safe transition.
+
+**Recommended approach:**
+1. **Deploy in parallel**: Start the new RPC 2.0 setup on different ports (e.g., `9945`) while keeping your old deployment running
+2. **Switch workloads**: Switch your applications to use the new endpoints
+3. **Verify functionality**: Ensure all your integrations work correctly with the new setup
+4. **Remove old deployment**: Once confident, stop and remove the old containers
+
+> ⚠️ Make sure that you only send LP or Broker API requests to one deployment at a time (old or new) assuming you are using the same account (signing key) for both deployments. Otherwise, you will get errors due to Nonce conflicts.
+
+```bash
+# Example: Run new setup on port 9945 while old setup uses 9944
+# Update docker-compose.yml ports temporarily:
+ports:
+  - "9945:9944"  # New setup on 9945
+
+# Test new setup
+curl -H "Content-Type: application/json" \
+    -d '{"id":1, "jsonrpc":"2.0", "method": "system_health"}' \
+    http://localhost:9945
+
+# Once verified, switch to standard port 9944 and remove old deployment
+```
+
+#### 4️⃣ **API Integration**
 > 🎉 **No code changes required!** Your existing integration continues to work unchanged.
 
 All API calls now point to: `http://localhost:9944`
