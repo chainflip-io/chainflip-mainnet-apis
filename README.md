@@ -55,6 +55,9 @@ cat chainflip/lp-keys.json | jq -r '.signing_account_id'
 
 ### 📋 Migration Steps
 
+#### 🔐 **Important: Backup Your Private Keys**
+> ⚠️ **CRITICAL**: Before proceeding with the migration, ensure you have secure backups of all your private keys. Store backups in multiple secure locations (encrypted USB drives, secure cloud storage, etc.). If you lose your keys during migration, you will lose access to your funds permanently.
+
 #### 1️⃣ **Verify Key Location**
 > ✅ No changes needed if you followed the setup guide!
 
