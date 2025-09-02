@@ -9,6 +9,8 @@ services:
     user: root
     ports:
       - "127.0.0.1:9944:9944"
+    volumes:
+      - ./chainflip/chaindata:/etc/chainflip/chaindata
     entrypoint: /bin/sh
     command: >
       -c '
@@ -39,6 +41,7 @@ services:
       - "127.0.0.1:9944:9944"
     volumes:
       - ./chainflip/keys/broker:/etc/chainflip-keys/broker
+      - ./chainflip/chaindata:/etc/chainflip/chaindata
     entrypoint: /bin/sh
     command: >
       -c '
@@ -75,6 +78,7 @@ services:
       - "127.0.0.1:9944:9944"
     volumes:
       - ./chainflip/keys/lp:/etc/chainflip-keys/lp
+      - ./chainflip/chaindata:/etc/chainflip/chaindata
     entrypoint: /bin/sh
     command: >
       -c '
