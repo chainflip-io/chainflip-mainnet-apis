@@ -19,8 +19,8 @@ cd chainflip-mainnet-apis
 ```bash
 mkdir -p ./chainflip/keys/lp
 mkdir -p ./chainflip/keys/broker
-docker run --platform=linux/amd64 --entrypoint=/usr/local/bin/chainflip-cli chainfliplabs/chainflip-cli:berghain-1.10.0 generate-keys --json > chainflip/lp-keys.json
-docker run --platform=linux/amd64 --entrypoint=/usr/local/bin/chainflip-cli chainfliplabs/chainflip-cli:berghain-1.10.0 generate-keys --json > chainflip/broker-keys.json
+docker run --platform=linux/amd64 --entrypoint=/usr/local/bin/chainflip-cli chainfliplabs/chainflip-cli:berghain-1.12.0 generate-keys --json > chainflip/lp-keys.json
+docker run --platform=linux/amd64 --entrypoint=/usr/local/bin/chainflip-cli chainfliplabs/chainflip-cli:berghain-1.12.0 generate-keys --json > chainflip/broker-keys.json
 cat chainflip/broker-keys.json | jq -r '.signing_key.secret_key' > chainflip/keys/broker/signing_key_file
 cat chainflip/lp-keys.json | jq -r '.signing_key.secret_key' > chainflip/keys/lp/signing_key_file
 ```
@@ -120,7 +120,7 @@ All API calls now point to: `http://localhost:9944`
 > This can be achieved by removing the `127.0.0.1:` before the port number. For example:
 ```yaml
   node-with-lp:
-    image: chainfliplabs/chainflip-node:berghain-1.10.0
+    image: chainfliplabs/chainflip-node:berghain-1.12.0
     pull_policy: always
     stop_grace_period: 5s
     stop_signal: SIGINT
@@ -150,6 +150,7 @@ All API calls now point to: `http://localhost:9944`
         --sync=light-rpc \
         --blocks-pruning=128 \
         --state-pruning=128 \
+        --prune-block-headers \
         --log info,grandpa=error,runtime::grandpa=off,aura=error,babe=error,txpool::api=error
       '
     profiles:
@@ -199,7 +200,7 @@ chainflip-mainnet-apis-node-1  | 2023-12-14 10:22:24 ✨ Imported #438968 (0x3fb
 chainflip-mainnet-apis-node-1  | 2023-12-14 10:22:28 ⏩ Block history, #26112 (8 peers), best: #438968 (0x3fba…8e06), finalized #438966 (0x99bd…0628), ⬇ 3.4MiB/s ⬆ 182.8kiB/s
 ```
 
-You can check the node's health and verified it is synched by using this RPC call:
+You can check the node's health and verified it is synced by using this RPC call:
 ```
 curl -H "Content-Type: application/json" \
     -d '{"id":1, "jsonrpc":"2.0", "method": "system_health"}' \

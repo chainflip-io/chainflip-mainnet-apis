@@ -1,6 +1,6 @@
 services:
   node:
-    image: chainfliplabs/chainflip-node:berghain-1.10.0
+    image: chainfliplabs/chainflip-node:berghain-1.12.0
     pull_policy: always
     stop_grace_period: 5s
     stop_signal: SIGINT
@@ -24,13 +24,14 @@ services:
         --sync=light-rpc \
         --blocks-pruning=128 \
         --state-pruning=128 \
+        --prune-block-headers \
         --log info,grandpa=error,runtime::grandpa=off,aura=error,babe=error,txpool::api=error
       '
     profiles:
       - rpc-node
 
   node-with-broker:
-    image: chainfliplabs/chainflip-node:berghain-1.10.0
+    image: chainfliplabs/chainflip-node:berghain-1.12.0
     pull_policy: always
     stop_grace_period: 5s
     stop_signal: SIGINT
@@ -61,13 +62,14 @@ services:
         --sync=light-rpc \
         --blocks-pruning=128 \
         --state-pruning=128 \
+        --prune-block-headers \
         --log info,grandpa=error,runtime::grandpa=off,aura=error,babe=error,txpool::api=error
       '
     profiles:
       - broker
 
   node-with-lp:
-    image: chainfliplabs/chainflip-node:berghain-1.10.0
+    image: chainfliplabs/chainflip-node:berghain-1.12.0
     pull_policy: always
     stop_grace_period: 5s
     stop_signal: SIGINT
@@ -98,6 +100,7 @@ services:
         --sync=light-rpc \
         --blocks-pruning=128 \
         --state-pruning=128 \
+        --prune-block-headers \
         --log info,grandpa=error,runtime::grandpa=off,aura=error,babe=error,txpool::api=error
       '
     profiles:
