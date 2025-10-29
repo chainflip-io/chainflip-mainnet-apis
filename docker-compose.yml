@@ -1,8 +1,6 @@
-version: "3.8"
-
 services:
   node:
-    image: chainfliplabs/chainflip-node:berghain-1.8.4
+    image: chainfliplabs/chainflip-node:berghain-1.12.0
     pull_policy: always
     stop_grace_period: 5s
     stop_signal: SIGINT
@@ -13,19 +11,27 @@ services:
       - "127.0.0.1:9944:9944"
     volumes:
       - ./chainflip/chaindata:/etc/chainflip/chaindata
-    entrypoint:
-      - /usr/local/bin/chainflip-node
-    command:
-      - --base-path=/etc/chainflip/chaindata
-      - --chain=/etc/chainflip/berghain.chainspec.json
-      - --rpc-cors=all
-      - --rpc-methods=unsafe
-      - --max-runtime-instances=32
-      - --unsafe-rpc-external
-      - --sync=warp
+    entrypoint: /bin/sh
+    command: >
+      -c '
+      /usr/local/bin/chainflip-node \
+        --base-path=/etc/chainflip/chaindata \
+        --chain=/etc/chainflip/berghain.chainspec.json \
+        --max-runtime-instances=32 \
+        --rpc-cors=all \
+        --rpc-methods=safe \
+        --rpc-external \
+        --sync=light-rpc \
+        --blocks-pruning=128 \
+        --state-pruning=128 \
+        --prune-block-headers \
+        --log info,grandpa=error,runtime::grandpa=off,aura=error,babe=error,txpool::api=error
+      '
+    profiles:
+      - rpc-node
 
-  broker:
-    image: chainfliplabs/chainflip-broker-api:berghain-1.8.4
+  node-with-broker:
+    image: chainfliplabs/chainflip-node:berghain-1.12.0
     pull_policy: always
     stop_grace_period: 5s
     stop_signal: SIGINT
@@ -33,20 +39,37 @@ services:
     restart: unless-stopped
     user: root
     ports:
-      - "127.0.0.1:10997:80"
-    environment:
-      - RUST_LOG=debug
+      - "127.0.0.1:9944:9944"
     volumes:
-      - ./chainflip/keys/broker:/etc/chainflip/keys
-    entrypoint:
-      - /usr/local/bin/chainflip-broker-api
-    command:
-      - --state_chain.ws_endpoint=ws://node:9944
-    depends_on:
-      - node
+      - ./chainflip/keys/broker:/etc/chainflip-keys/broker
+      - ./chainflip/chaindata:/etc/chainflip/chaindata
+    entrypoint: /bin/sh
+    command: >
+      -c '
+      /usr/local/bin/chainflip-node key insert \
+        --chain=/etc/chainflip/berghain.chainspec.json \
+        --base-path=/etc/chainflip/chaindata \
+        --suri=0x$$(cat /etc/chainflip-keys/broker/signing_key_file) \
+        --key-type=brok \
+        --scheme=sr25519 &&
+      /usr/local/bin/chainflip-node \
+        --base-path=/etc/chainflip/chaindata \
+        --chain=/etc/chainflip/berghain.chainspec.json \
+        --max-runtime-instances=32 \
+        --rpc-cors=all \
+        --rpc-methods=safe \
+        --rpc-external \
+        --sync=light-rpc \
+        --blocks-pruning=128 \
+        --state-pruning=128 \
+        --prune-block-headers \
+        --log info,grandpa=error,runtime::grandpa=off,aura=error,babe=error,txpool::api=error
+      '
+    profiles:
+      - broker
 
-  lp:
-    image: chainfliplabs/chainflip-lp-api:berghain-1.8.4
+  node-with-lp:
+    image: chainfliplabs/chainflip-node:berghain-1.12.0
     pull_policy: always
     stop_grace_period: 5s
     stop_signal: SIGINT
@@ -54,14 +77,31 @@ services:
     restart: unless-stopped
     user: root
     ports:
-      - "127.0.0.1:10589:80"
-    environment:
-      - RUST_LOG=debug
+      - "127.0.0.1:9944:9944"
     volumes:
-      - ./chainflip/keys/lp:/etc/chainflip/keys
-    entrypoint:
-      - /usr/local/bin/chainflip-lp-api
-    command:
-      - --state_chain.ws_endpoint=ws://node:9944
-    depends_on:
-      - node
+      - ./chainflip/keys/lp:/etc/chainflip-keys/lp
+      - ./chainflip/chaindata:/etc/chainflip/chaindata
+    entrypoint: /bin/sh
+    command: >
+      -c '
+      /usr/local/bin/chainflip-node key insert \
+        --chain=/etc/chainflip/berghain.chainspec.json \
+        --base-path=/etc/chainflip/chaindata \
+        --suri=0x$$(cat /etc/chainflip-keys/lp/signing_key_file) \
+        --key-type=lqpr \
+        --scheme=sr25519 &&
+      /usr/local/bin/chainflip-node \
+        --base-path=/etc/chainflip/chaindata \
+        --chain=/etc/chainflip/berghain.chainspec.json \
+        --max-runtime-instances=32 \
+        --rpc-cors=all \
+        --rpc-methods=safe \
+        --rpc-external \
+        --sync=light-rpc \
+        --blocks-pruning=128 \
+        --state-pruning=128 \
+        --prune-block-headers \
+        --log info,grandpa=error,runtime::grandpa=off,aura=error,babe=error,txpool::api=error
+      '
+    profiles:
+      - lp
