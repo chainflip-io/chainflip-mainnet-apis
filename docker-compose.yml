@@ -24,7 +24,6 @@ services:
         --sync=light-rpc \
         --blocks-pruning=128 \
         --state-pruning=128 \
-        --prune-block-headers \
         --disable-log-color \
         --log info,grandpa=error,runtime::grandpa=off,aura=error,babe=error,txpool::api=error
       '
@@ -63,7 +62,6 @@ services:
         --sync=light-rpc \
         --blocks-pruning=128 \
         --state-pruning=128 \
-        --prune-block-headers \
         --disable-log-color \
         --log info,grandpa=error,runtime::grandpa=off,aura=error,babe=error,txpool::api=error
       '
@@ -102,7 +100,6 @@ services:
         --sync=light-rpc \
         --blocks-pruning=128 \
         --state-pruning=128 \
-        --prune-block-headers \
         --disable-log-color \
         --log info,grandpa=error,runtime::grandpa=off,aura=error,babe=error,txpool::api=error
       '
