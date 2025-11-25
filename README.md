@@ -120,7 +120,7 @@ All API calls now point to: `http://localhost:9944`
 > This can be achieved by removing the `127.0.0.1:` before the port number. For example:
 ```yaml
   node-with-lp:
-    image: chainfliplabs/chainflip-node:berghain-1.12.0
+    image: chainfliplabs/chainflip-node:berghain-1.12.5
     pull_policy: always
     stop_grace_period: 5s
     stop_signal: SIGINT
@@ -150,7 +150,6 @@ All API calls now point to: `http://localhost:9944`
         --sync=light-rpc \
         --blocks-pruning=128 \
         --state-pruning=128 \
-        --prune-block-headers \
         --log info,grandpa=error,runtime::grandpa=off,aura=error,babe=error,txpool::api=error
       '
     profiles:
