@@ -1,6 +1,6 @@
 services:
   node:
-    image: chainfliplabs/chainflip-node:berghain-1.12.5
+    image: chainfliplabs/chainflip-node:berghain-2.0.2
     pull_policy: always
     stop_grace_period: 5s
     stop_signal: SIGINT
@@ -31,7 +31,7 @@ services:
       - rpc-node
 
   node-with-broker:
-    image: chainfliplabs/chainflip-node:berghain-1.12.5
+    image: chainfliplabs/chainflip-node:berghain-2.0.2
     pull_policy: always
     stop_grace_period: 5s
     stop_signal: SIGINT
@@ -69,7 +69,7 @@ services:
       - broker
 
   node-with-lp:
-    image: chainfliplabs/chainflip-node:berghain-1.12.5
+    image: chainfliplabs/chainflip-node:berghain-2.0.2
     pull_policy: always
     stop_grace_period: 5s
     stop_signal: SIGINT

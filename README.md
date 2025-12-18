@@ -19,8 +19,8 @@ cd chainflip-mainnet-apis
 ```bash
 mkdir -p ./chainflip/keys/lp
 mkdir -p ./chainflip/keys/broker
-docker run --platform=linux/amd64 --entrypoint=/usr/local/bin/chainflip-cli chainfliplabs/chainflip-cli:berghain-1.12.0 generate-keys --json > chainflip/lp-keys.json
-docker run --platform=linux/amd64 --entrypoint=/usr/local/bin/chainflip-cli chainfliplabs/chainflip-cli:berghain-1.12.0 generate-keys --json > chainflip/broker-keys.json
+docker run --platform=linux/amd64 --entrypoint=/usr/local/bin/chainflip-cli chainfliplabs/chainflip-cli:berghain-2.0.2
+docker run --platform=linux/amd64 --entrypoint=/usr/local/bin/chainflip-cli chainfliplabs/chainflip-cli:berghain-2.0.2
 cat chainflip/broker-keys.json | jq -r '.signing_key.secret_key' > chainflip/keys/broker/signing_key_file
 cat chainflip/lp-keys.json | jq -r '.signing_key.secret_key' > chainflip/keys/lp/signing_key_file
 ```
@@ -120,7 +120,7 @@ All API calls now point to: `http://localhost:9944`
 > This can be achieved by removing the `127.0.0.1:` before the port number. For example:
 ```yaml
   node-with-lp:
-    image: chainfliplabs/chainflip-node:berghain-1.12.5
+    image: chainfliplabs/chainflip-node:berghain-2.0.2
     pull_policy: always
     stop_grace_period: 5s
     stop_signal: SIGINT
