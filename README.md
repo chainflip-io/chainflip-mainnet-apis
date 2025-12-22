@@ -19,8 +19,8 @@ cd chainflip-mainnet-apis
 ```bash
 mkdir -p ./chainflip/keys/lp
 mkdir -p ./chainflip/keys/broker
-docker run --platform=linux/amd64 --entrypoint=/usr/local/bin/chainflip-cli chainfliplabs/chainflip-cli:berghain-2.0.2
-docker run --platform=linux/amd64 --entrypoint=/usr/local/bin/chainflip-cli chainfliplabs/chainflip-cli:berghain-2.0.2
+docker run --platform=linux/amd64 --entrypoint=/usr/local/bin/chainflip-cli chainfliplabs/chainflip-cli:berghain-2.0.5
+docker run --platform=linux/amd64 --entrypoint=/usr/local/bin/chainflip-cli chainfliplabs/chainflip-cli:berghain-2.0.5
 cat chainflip/broker-keys.json | jq -r '.signing_key.secret_key' > chainflip/keys/broker/signing_key_file
 cat chainflip/lp-keys.json | jq -r '.signing_key.secret_key' > chainflip/keys/lp/signing_key_file
 ```
@@ -44,9 +44,9 @@ cat chainflip/lp-keys.json | jq -r '.signing_account_id'
 4. Click "Add Node"
 5. Follow the instructions to fund the account
 
-## 🚀 Migrating to RPC 2.0
+## 🚀 Migrating to RPC 2.0.5
 
-> ✨ **Upgrade Notice**: If you're upgrading from a previous version that used separate LP and Broker API services, RPC 2.0 provides a simplified architecture where all APIs are integrated directly into the node.
+> ✨ **Upgrade Notice**: If you're upgrading from a previous version that used separate LP and Broker API services, RPC 2.0.5
 
 ### 🔄 Key Changes
 - 🎯 **Consolidated APIs**: LP and Broker RPCs are now part of the node itself, eliminating the need for separate API containers
@@ -80,7 +80,7 @@ docker compose --profile rpc-node up -d  # For basic RPC node
 > 🛡️ **Zero-downtime migration**: Deploy the new setup alongside your existing deployment for a safe transition.
 
 **Recommended approach:**
-1. **Deploy in parallel**: Start the new RPC 2.0 setup on different ports (e.g., `9945`) while keeping your old deployment running
+1. **Deploy in parallel**: Start the new RPC 2.0.5
 2. **Switch workloads**: Switch your applications to use the new endpoints
 3. **Verify functionality**: Ensure all your integrations work correctly with the new setup
 4. **Remove old deployment**: Once confident, stop and remove the old containers
@@ -95,7 +95,7 @@ ports:
 
 # Test new setup
 curl -H "Content-Type: application/json" \
-    -d '{"id":1, "jsonrpc":"2.0", "method": "system_health"}' \
+    -d '{"id":1, "jsonrpc":"2.0.5
     http://localhost:9945
 
 # Once verified, switch to standard port 9944 and remove old deployment
@@ -120,7 +120,7 @@ All API calls now point to: `http://localhost:9944`
 > This can be achieved by removing the `127.0.0.1:` before the port number. For example:
 ```yaml
   node-with-lp:
-    image: chainfliplabs/chainflip-node:berghain-2.0.2
+    image: chainfliplabs/chainflip-node:berghain-2.0.5
     pull_policy: always
     stop_grace_period: 5s
     stop_signal: SIGINT
@@ -202,7 +202,7 @@ chainflip-mainnet-apis-node-1  | 2023-12-14 10:22:28 ⏩ Block history, #26112 (
 You can check the node's health and verified it is synced by using this RPC call:
 ```
 curl -H "Content-Type: application/json" \
-    -d '{"id":1, "jsonrpc":"2.0", "method": "system_health"}' \
+    -d '{"id":1, "jsonrpc":"2.0.5
     http://localhost:9944
 ```
 
@@ -217,7 +217,7 @@ Register a broker account:
 
 ```bash
 curl -H "Content-Type: application/json" \
-    -d '{"id":1, "jsonrpc":"2.0", "method": "broker_registerAccount"}' \
+    -d '{"id":1, "jsonrpc":"2.0.5
     http://localhost:9944
 ```
 
@@ -225,7 +225,7 @@ Request a swap deposit address:
 
 ```bash
 curl -H "Content-Type: application/json" \
-    -d '{"id":1, "jsonrpc":"2.0", "method": "broker_requestSwapDepositAddress", "params": ["ETH", "FLIP","0xabababababababababababababababababababab", 0]}' \
+    -d '{"id":1, "jsonrpc":"2.0.5
     http://localhost:9944
 ```
 
@@ -235,7 +235,7 @@ Register an LP account:
 
 ```bash
 curl -H "Content-Type: application/json" \
-    -d '{"id":1, "jsonrpc":"2.0", "method": "lp_register_account", "params": [0]}' \
+    -d '{"id":1, "jsonrpc":"2.0.5
     http://localhost:9944
 ```
 Register a liquidity refund address:
@@ -244,7 +244,7 @@ Before you can deposit liquidity, you need to register a liquidity refund addres
 
 ```bash
 curl -H "Content-Type: application/json" \
-    -d '{"id":1, "jsonrpc":"2.0", "method": "lp_register_liquidity_refund_address", "params": {"chain": "Ethereum", "address": "0xabababababababababababababababababababab"}}' \
+    -d '{"id":1, "jsonrpc":"2.0.5
     http://localhost:9944
 
 ```
@@ -253,7 +253,7 @@ Request a liquidity deposit address:
 
 ```bash
 curl -H "Content-Type: application/json" \
-    -d '{"id":1, "jsonrpc":"2.0", "method": "lp_liquidity_deposit", "params": ["ETH"]}' \
+    -d '{"id":1, "jsonrpc":"2.0.5
     http://localhost:9944
 ```
 
