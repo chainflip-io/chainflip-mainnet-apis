@@ -32,11 +32,11 @@ If you do not have existing keys, generate them with:
 mkdir -p ./chainflip/keys/lp ./chainflip/keys/broker
 
 docker run --platform=linux/amd64 --entrypoint=/usr/local/bin/chainflip-cli \
-  chainfliplabs/chainflip-cli:berghain-2.1.4 \
+  chainfliplabs/chainflip-cli:berghain-2.2.3 \
   generate-keys --json > chainflip/lp-keys.json
 
 docker run --platform=linux/amd64 --entrypoint=/usr/local/bin/chainflip-cli \
-  chainfliplabs/chainflip-cli:berghain-2.1.4 \
+  chainfliplabs/chainflip-cli:berghain-2.2.3 \
   generate-keys --json > chainflip/broker-keys.json
 
 jq -r '.signing_key.secret_key' chainflip/broker-keys.json > chainflip/keys/broker/signing_key_file
@@ -76,7 +76,7 @@ cat chainflip/lp-keys.json | jq -r '.signing_account_id'
 > This can be achieved by removing the `127.0.0.1:` before the port number. For example:
 ```yaml
   node-with-lp:
-    image: chainfliplabs/chainflip-node:berghain-2.1.4
+    image: chainfliplabs/chainflip-node:berghain-2.2.3
     pull_policy: always
     stop_grace_period: 5s
     stop_signal: SIGINT
@@ -226,7 +226,7 @@ For more details, refer to the official docs:
 - Broker Light RPC node: https://docs.chainflip.io/brokers/broker-light-rpc-node
 - LP Light RPC node: https://docs.chainflip.io/lp/lp-light-rpc-node
 
-## 🚀 Migrating to `berghain-2.1.4`
+## 🚀 Migrating to `berghain-2.2.3`
 
 > ✨ **Upgrade Notice**: If you're upgrading from a previous version that used separate LP and Broker API services, use the current Docker images and commands from this repository.
 
